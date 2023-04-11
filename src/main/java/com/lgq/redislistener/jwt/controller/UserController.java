@@ -1,5 +1,6 @@
 package com.lgq.redislistener.jwt.controller;
 
+import com.lgq.redislistener.jwt.pojo.BasePojo;
 import com.lgq.redislistener.jwt.pojo.User;
 import com.lgq.redislistener.jwt.service.UserService;
 import com.lgq.redislistener.jwt.util.JwtUtil;
@@ -46,5 +47,12 @@ public class UserController {
     @RequestMapping("/test")
     public String test(){
         return "成功";
+    }
+
+    @RequestMapping("/test1")
+    public BasePojo test1(){
+        User user = new User();
+        user.setUserName("张三");
+        return user;
     }
 }
