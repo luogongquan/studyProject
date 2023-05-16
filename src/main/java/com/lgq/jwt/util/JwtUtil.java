@@ -1,4 +1,4 @@
-package com.lgq.redislistener.jwt.util;
+package com.lgq.jwt.util;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;

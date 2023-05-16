@@ -1,6 +1,6 @@
-package com.lgq.redislistener.jwt.service;
+package com.lgq.jwt.service;
 
-import com.lgq.redislistener.jwt.pojo.User;
+import com.lgq.jwt.pojo.User;
 import lombok.Getter;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +13,10 @@ import java.util.Arrays;
  **/
 @Service
 public class UserService {
+    public static void main(String[] args) {
+        StringBuilder append = new StringBuilder().append("20230601", 0, 6);
+        System.out.println(append.toString());
+    }
     public User login(User user) throws Exception {
         if (!UserInfo.getEnum(user.getAccount()).getPassword().equals(user.getPassword())){
             throw new Exception("密码错误");

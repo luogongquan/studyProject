@@ -1,9 +1,9 @@
-package com.lgq.redislistener.jwt.controller;
+package com.lgq.jwt.controller;
 
-import com.lgq.redislistener.jwt.pojo.BasePojo;
-import com.lgq.redislistener.jwt.pojo.User;
-import com.lgq.redislistener.jwt.service.UserService;
-import com.lgq.redislistener.jwt.util.JwtUtil;
+import com.lgq.jwt.pojo.BasePojo;
+import com.lgq.jwt.pojo.User;
+import com.lgq.jwt.service.UserService;
+import com.lgq.jwt.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +26,7 @@ public class UserController {
     @PostMapping("/login")
     public Map<String,Object> login(@RequestBody User user){
         Map<String, Object> result = new HashMap<>();
+        System.out.println("+++++++++++++++++++++++++++热部署");
         try {
             User login = service.login(user);
             //存储载荷声明参数map

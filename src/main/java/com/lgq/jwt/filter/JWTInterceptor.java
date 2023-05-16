@@ -1,10 +1,10 @@
-package com.lgq.redislistener.jwt.filter;
+package com.lgq.jwt.filter;
 
 import com.auth0.jwt.exceptions.AlgorithmMismatchException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lgq.redislistener.jwt.util.JwtUtil;
+import com.lgq.jwt.util.JwtUtil;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;

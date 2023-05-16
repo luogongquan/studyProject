@@ -1,4 +1,4 @@
-package com.lgq.redislistener.jwt.pojo;
+package com.lgq.jwt.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

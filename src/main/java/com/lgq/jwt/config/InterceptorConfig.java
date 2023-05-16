@@ -1,6 +1,6 @@
-package com.lgq.redislistener.jwt.config;
+package com.lgq.jwt.config;
 
-import com.lgq.redislistener.jwt.filter.JWTInterceptor;
+import com.lgq.jwt.filter.JWTInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
