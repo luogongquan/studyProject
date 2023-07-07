@@ -1,0 +1,48 @@
+spring:
+  shardingsphere:
+    # 打印sql
+    props:
+      sql:
+        show: true
+    datasource:
+      names: ds
+      ds:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.jdbc.Driver
+        url: jdbc:mysql://192.168.133.130:3306/sharding?useSSL=false&serverTimezone=Asia/Shanghai
+        username: root
+        password: 123456
+        # 数据源其他配置
+        initialSize: 5
+        minIdle: 5
+        maxActive: 20
+        maxWait: 60000
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: SELECT 1 FROM DUAL
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+        # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+        #filters: stat,wall,log4j
+        maxPoolPreparedStatementPerConnectionSize: 20
+        useGlobalDataSourceStat: true
+        connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+    sharding:
+      # 默认数据源，未分片的表默认执行库
+      default-data-source-name: ds
+      # 表策略配置
+      tables:
+        # t_user 是逻辑表
+        sharding:
+          actualDataNodes: ds.sharding_$->{2023}0$->{1..3}
+          table-strategy:
+            complex:
+              shardingColumns: date_time,code
+              # 精准分表算法
+              algorithmClassName: com.lgq.sharding.config.TableComplexAlgorithm
+      # 顺道展示一下 SQL 的执行过程
+      props:
+        sql:
+          show: true

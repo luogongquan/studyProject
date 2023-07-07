@@ -1,3 +1,4 @@
+/*
 package com.lgq.redislistener.redis.config;
 
 import com.lgq.redislistener.redis.listener.RedisKeyExpirationListener;
@@ -8,11 +9,13 @@ import org.springframework.data.redis.listener.KeyExpirationEventMessageListener
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 
+*/
 /*
  * @Author: luogongquan
  * @date: 2023/4/7 14:38
  * @Description:
- */
+ *//*
+
 
 @Configuration
 public class RedisListenerConfig {
@@ -29,3 +32,4 @@ public class RedisListenerConfig {
     }
 
 }
+*/
