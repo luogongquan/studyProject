@@ -18,7 +18,7 @@ public interface ShardingMapper extends BaseMapper<Sharding> {
     List<Sharding> getList(@Param("time") String time);
 
 
-    @Select("select * from sharding where code in  (202301,202302) ")
+    @Select("select * from sharding where code =  '202301' ")
     List<Sharding> get4String();
 
     @Select("select * from sharding where date_time between  '2023-01-02' and '2023-02-05'")

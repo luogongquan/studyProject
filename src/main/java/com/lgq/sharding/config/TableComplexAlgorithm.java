@@ -5,7 +5,9 @@ import org.apache.shardingsphere.api.sharding.complex.ComplexKeysShardingAlgorit
 import org.apache.shardingsphere.api.sharding.complex.ComplexKeysShardingValue;
 
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName: TableComplexAlgorithm
@@ -17,8 +19,12 @@ public class TableComplexAlgorithm implements ComplexKeysShardingAlgorithm {
     @Override
     public Collection<String> doSharding(Collection collection, ComplexKeysShardingValue complexKeysShardingValue) {
         //获取age的值
-        complexKeysShardingValue.getColumnNameAndShardingValuesMap().get("age");
-        List<String> dbs = Lists.newArrayList();
-        return collection;
+        List code = (List) complexKeysShardingValue.getColumnNameAndShardingValuesMap().get("code");
+        List collect = (List) collection.stream().filter(item -> {
+            String s = String.valueOf(item);
+
+            return code.contains(s.substring(s.indexOf("_") + 1, s.length()));
+        }).collect(Collectors.toList());
+        return collect;
     }
 }
