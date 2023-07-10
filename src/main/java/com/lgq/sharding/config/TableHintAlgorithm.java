@@ -19,6 +19,9 @@ public class TableHintAlgorithm implements HintShardingAlgorithm<ShardingPojo> {
         String logicTableName = hintShardingValue.getLogicTableName();
         Collection<ShardingPojo> values = hintShardingValue.getValues();
         ShardingPojo pojo = (ShardingPojo)values.toArray()[0];
+        if(ObjectUtil.isEmpty(pojo.getEndTime())&&ObjectUtil.isEmpty(pojo.getStartTime())){
+            return collection;
+        }
         List<String> collect = collection.stream().filter(name -> {
 
             String substring = name.substring(name.lastIndexOf("_") + 1, name.length());

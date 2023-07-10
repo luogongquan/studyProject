@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.lgq.annotation.TableShare;
 import com.lgq.sharding.entity.*;
 import com.lgq.sharding.mapper.AlarmEventMapper;
 import org.apache.shardingsphere.api.hint.HintManager;
@@ -49,13 +50,15 @@ public class AlarmEventService  extends ServiceImpl<AlarmEventMapper, AlarmEvent
         hintManager.addTableShardingValue("alarm_event", sharding);
         return baseMapper.getRiskAndHandleCount(query);
     }
+
+    @TableShare
     public PageInfo<AlarmEvent>  getList(AlarmStatQuery query) {
-        HintManager.clear();
+        /*HintManager.clear();
         HintManager hintManager = HintManager.getInstance();
         //  hintManager.setDatabaseShardingValue(0);
         ShardingPojo sharding = new ShardingPojo();
         sharding.setStartTime("202306");
-        hintManager.addTableShardingValue("alarm_event", sharding);
+        hintManager.addTableShardingValue("alarm_event", sharding);*/
         LambdaQueryWrapper<AlarmEvent> ge = new QueryWrapper<AlarmEvent>().lambda()
                 .ge(AlarmEvent::getAlarmStartTime, query.getStartTime())
                 .orderByDesc(AlarmEvent::getAlarmStartTime);
