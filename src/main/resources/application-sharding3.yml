@@ -39,10 +39,8 @@ spring:
           actualDataNodes: ds.sharding_$->{2023}0$->{1..3}
           table-strategy:
             #复合分片
-            complex:
-              shardingColumns: date_time,code
-              # 精准分表算法
-              algorithmClassName: com.lgq.sharding.config.TableComplexAlgorithm
+            hint:
+              algorithmClassName: com.lgq.sharding.config.TableHintAlgorithm
       # 顺道展示一下 SQL 的执行过程
       props:
         sql:

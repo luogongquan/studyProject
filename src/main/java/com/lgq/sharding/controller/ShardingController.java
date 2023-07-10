@@ -55,4 +55,9 @@ public class ShardingController {
         List<Sharding> objects = service.list(between);
         return objects;
     }
+    @RequestMapping("/get4Date1")
+    public List<Sharding> get4Date1(){
+        List<Sharding> objects = service.get4Date();
+        return objects;
+    }
 }

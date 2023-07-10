@@ -9,7 +9,7 @@ spring:
       ds:
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.jdbc.Driver
-        url: jdbc:mysql://192.168.133.130:3306/sharding?useSSL=false&serverTimezone=Asia/Shanghai
+        url: jdbc:mysql://192.168.133.130:3306/dst_active_security?useSSL=false&serverTimezone=Asia/Shanghai
         username: root
         password: 123456
         # 数据源其他配置
@@ -35,15 +35,15 @@ spring:
       # 表策略配置
       tables:
         # t_user 是逻辑表
-        sharding:
-          actualDataNodes: ds.sharding_$->{2023}0$->{1..3}
+        alarm_event:
+          actualDataNodes: ds.alarm_event_$->{2023}0$->{6..7}
           table-strategy:
             #复合分片
-            complex:
-              shardingColumns: date_time,code
-              # 精准分表算法
-              algorithmClassName: com.lgq.sharding.config.TableComplexAlgorithm
+            hint:
+              algorithmClassName: com.lgq.sharding.config.TableHintAlgorithm
       # 顺道展示一下 SQL 的执行过程
       props:
         sql:
           show: true
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*.xml

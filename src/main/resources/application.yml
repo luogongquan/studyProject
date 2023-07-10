@@ -3,7 +3,7 @@ server:
 spring:
   profiles:
     #active: test
-    include: sharding2
+    include: sharding-alarm
   cache:
     type: redis
   redis:
