@@ -1,9 +1,7 @@
 package com.lgq.sharding.controller;
 
-import com.lgq.sharding.entity.AlarmCountTop;
-import com.lgq.sharding.entity.AlarmEventCount4Hour;
-import com.lgq.sharding.entity.AlarmStatQuery;
-import com.lgq.sharding.entity.RiskAndHandleCount;
+import com.github.pagehelper.PageInfo;
+import com.lgq.sharding.entity.*;
 import com.lgq.sharding.service.AlarmEventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,5 +35,10 @@ public class AlarmEventController {
     @PostMapping("/getRiskAndHandleCount")
     public List<RiskAndHandleCount> getRiskAndHandleCount(@RequestBody AlarmStatQuery query) {
         return alarmEventService.getRiskAndHandleCount(query);
+    }
+
+    @PostMapping("/getList")
+    public PageInfo<AlarmEvent> getList(@RequestBody AlarmStatQuery query) {
+        return alarmEventService.getList(query);
     }
 }

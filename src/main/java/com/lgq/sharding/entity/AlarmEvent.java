@@ -1,8 +1,5 @@
 package com.lgq.sharding.entity;
 
-import cn.hutool.core.date.BetweenFormatter;
-import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.util.ObjectUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +7,6 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -22,7 +18,7 @@ import java.util.Date;
 @Setter
 @ToString
 @NoArgsConstructor
-public class AlarmEvent{
+public class AlarmEvent {
 
     private static final long serialVersionUID = 1L;
 
@@ -69,7 +65,7 @@ public class AlarmEvent{
      * 2：高风险
      **/
     private Integer riskLevel;
-    private String riskLevelStr;
+
 
     /**
      * 报警开始时间
@@ -93,7 +89,6 @@ public class AlarmEvent{
      * 3: 疲劳驾驶
      **/
     private Integer riskType;
-    private String riskTypeStr;
 
     /**
      * 处理状态
@@ -103,7 +98,6 @@ public class AlarmEvent{
      * 3：超时处理
      **/
     private Integer handleStatus;
-    private String handleStatusStr;
 
     /**
      * 处理结果
@@ -116,84 +110,12 @@ public class AlarmEvent{
      * 6: 人工电话
      **/
     private Integer handleResults;
-    private String handleResultsStr;
-
-    private String duration;
-
-    /**
-     * 设备品牌id
-     **/
-    private Integer deviceBrand;
-    private String deviceBrandName;
-    /** 设备型号id*/
-    private Integer deviceType;
-    private String deviceTypeName;
-    /** 客户名称id*/
-    private String customerCode;
-    private String customerName;
-
-    /**
-     * 分表字段 传递列表报警开始时间“yyyy-MM-dd HH:mm:ss”
-     **/
-    @NotNull(groups = Query.class, message = "startTime不能为空")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date startTime;
-
-    /**
-     * 运营城市行政区划
-     */
-    private String serveCityCode;
-
-    /**
-     * 客户类群编码
-     */
-    private String customerClass;
-
-    /**
-     * 客户类群
-     */
-    private String customerClassName;
-
-
-    /**
-     * 集团code
-     */
-    private String subCustomer;
-
-    /**
-     * 集团
-     */
-    private String subCustomerName;
-
-
-    /**
-     * 车辆品牌名称
-     **/
-    private String carBrandName;
-
-    /**
-     * 运营城市
-     **/
-    private String cityName;
-
-    /**
-     * 设备号
-     **/
-    private String deviceNo;
-
-
-    /**
-     * 车辆型号名称
-     **/
-    private String carModelName;
 
 
     /**
      * 产生来源 1：聚合，2：护航
      */
     private Integer generateSource;
-    private String generateSourceName;
 
     public interface Query {
     }

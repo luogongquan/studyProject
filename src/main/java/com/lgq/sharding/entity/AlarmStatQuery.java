@@ -11,7 +11,9 @@ import java.util.List;
 @Data
 public class AlarmStatQuery  {
 
+    private Integer pageSize;
 
+    private Integer pageNum;
     /**
      * 统计开始时间不能为空 yyyy-MM-dd hh:mm:ss
      **/
