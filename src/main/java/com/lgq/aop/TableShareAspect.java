@@ -31,7 +31,7 @@ import java.util.Map;
 @Component
 @Aspect
 public class TableShareAspect {
-    @Pointcut("@annotation(com.lgq.annotation.TableShare)")
+    @Pointcut("@within(com.lgq.annotation.TableShare) || @annotation(com.lgq.annotation.TableShare)")
     public void pointCut(){}
 
     @Around(value = "pointCut()")

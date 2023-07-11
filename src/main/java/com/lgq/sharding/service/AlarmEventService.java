@@ -67,4 +67,15 @@ public class AlarmEventService  extends ServiceImpl<AlarmEventMapper, AlarmEvent
         PageInfo<AlarmEvent> page = new PageInfo<>(list);
         return page;
     }
+
+    public PageInfo<AlarmEvent>  getList1(AlarmStatQuery query) {
+        PageHelper.startPage(query.getPageNum(),query.getPageSize());
+        List<AlarmEvent> list = baseMapper.findAlarmEventList(query);
+        PageInfo<AlarmEvent> page = new PageInfo<>(list);
+        return page;
+    }
+
+    public List<CountDto> groupHaving(AlarmStatQuery query) {
+        return baseMapper.groupHaving(query);
+    }
 }

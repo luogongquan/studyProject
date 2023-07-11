@@ -4,7 +4,7 @@
 
 
     <sql id="baseColumns">
-		 a.id,
+        a.id,
 		 a.creator_id,
 		 a.creator_name,
 		 a.create_time,
@@ -18,105 +18,27 @@
 		 a.handle_status,
 		 a.handle_results,
          a.generate_source
-	</sql>
-
+    </sql>
 
 
     <!-- 列表  -->
     <select id="findAlarmEventList" resultType="com.lgq.sharding.entity.AlarmEvent">
         SELECT
-        <include refid="baseColumns"/>,
-        car.device_brand,
-        car.device_brand_name,
-        car.device_type,
-        car.device_type_name,
-        cus.customer_code,
-        cus.customer_name,
-        car.customer_class,
-        car.customer_class_name,
-        car.sub_customer,
-        car.sub_customer_name,
-        car.car_brand_name,
-        car.city_name,
-        car.device_no,
-        car.car_model_name
+        <include refid="baseColumns"/>
         FROM alarm_event a
-        LEFT JOIN sys_adas_car car ON a.vin = car.car_vin
-        LEFT JOIN sys_adas_customer cus ON (cus.is_deleted = 0 AND cus.customer_code = car.clientele_id)
-        WHERE 1=1
-        <if test="id!=null">AND a.id = #{id}</if>
-        <if test="creatorId!=null">AND a.creator_id = #{creatorId}</if>
-        <if test="creatorName!=null and creatorName!=''">AND a.creator_name = #{creatorName}</if>
-        <if test="createTime!=null">AND a.create_time = #{createTime}</if>
-        <if test="isDeleted!=null">AND a.is_deleted = #{isDeleted}</if>
-        <if test="vin!=null and vin!=''">AND a.vin = #{vin}</if>
-        <if test="vno!=null and vno!=''">AND a.vno = #{vno}</if>
-        <if test="riskLevel!=null">AND a.risk_level = #{riskLevel}</if>
-        <if test="alarmStartTime!=null">AND a.alarm_start_time <![CDATA[>=]]> #{alarmStartTime}</if>
-        <if test="alarmEndTime!=null">AND a.alarm_start_time <![CDATA[<=]]> #{alarmEndTime}</if>
-        <if test="riskType!=null">AND a.risk_type = #{riskType}</if>
-        <if test="handleStatus!=null">AND a.handle_status = #{handleStatus}</if>
-        <if test="handleResults!=null">AND a.handle_results = #{handleResults}</if>
-        <if test="customerCode!=null and customerCode!=''">AND cus.customer_code = #{customerCode}</if>
-        <if test="deviceBrand!=null">AND car.device_brand = #{deviceBrand}</if>
-        <if test="deviceType!=null">AND car.device_type = #{deviceType}</if>
-        <if test="riskLevels != null and riskLevels.size > 0">
-            and a.risk_level in
-            <foreach collection="riskLevels" item="riskLevel" open="(" close=")" separator=",">
-                #{riskLevel}
-            </foreach>
-        </if>
-        <if test="riskTypes != null and riskTypes.size > 0">
-            and a.risk_type in
-            <foreach collection="riskTypes" item="riskType" open="(" close=")" separator=",">
-                #{riskType}
-            </foreach>
-        </if>
-        <if test="vins != null">
-            <choose>
-                <when test="vins.size() > 1">
-                    and car.car_vin in
-                    <foreach collection="vins" item="vin" open="(" close=")" separator=",">
-                        #{vin}
-                    </foreach>
-                </when>
-                <otherwise>
-                    <foreach collection="vins" item="vin" separator=",">
-                        and car.car_vin like CONCAT('%', #{vin}, '%')
-                    </foreach>
-                </otherwise>
-            </choose>
-        </if>
-        <if test="vnos != null">
-            <choose>
-                <when test="vnos.size() > 1">
-                    and car.car_no in
-                    <foreach collection="vnos" item="carNo" open="(" close=")" separator=",">
-                        #{carNo}
-                    </foreach>
-                </when>
-                <otherwise>
-                    <foreach collection="vnos" item="carNo" separator=",">
-                        and car.car_no like CONCAT('%', #{carNo}, '%')
-                    </foreach>
-                </otherwise>
-            </choose>
-        </if>
-        <if test="customerClass!=null and customerClass!=''">AND car.customer_class = #{customerClass}</if>
-        <if test="subCustomer!=null and subCustomer!=''">AND car.sub_customer = #{subCustomer}</if>
-        <if test="escortStatus!=null and escortStatus!=''">AND IFNULL(car.escort_status,0) = #{escortStatus}</if>
-        <if test="generateSource!=null">AND a.generate_source = #{generateSource}</if>
+        WHERE alarm_start_time &gt;=#{startTime} and alarm_start_time &lt;=#{endTime}
+        or risk_type=1
         ORDER BY a.alarm_start_time DESC
     </select>
 
 
     <select id="getAlarmEventCount4Hour" resultType="com.lgq.sharding.entity.AlarmEventCount4Hour">
         SELECT
-            DATE_FORMAT(alarm_start_time,'%H') hour_time,
-            sum(if(risk_type=0,1,0)) speed_total,
-            sum(if(risk_type=1,1,0)) fierce_total,
-            sum(if(risk_type=2,1,0)) distract_total,
-            sum(if(risk_type=3,1,0)) tired_total
+        DATE_FORMAT(alarm_start_time,'%H') hour_time,
+        sum(if(risk_type=0,1,0)) speed_total,
+        sum(if(risk_type=1,1,0)) fierce_total,
+        sum(if(risk_type=2,1,0)) distract_total,
+        sum(if(risk_type=3,1,0)) tired_total
         FROM alarm_event a
         <where>
             <include refid="countCondition"/>
@@ -143,23 +65,32 @@
     <select id="alarmCount4RiskType" resultType="com.lgq.sharding.entity.AlarmCountTop">
         SELECT
         vin car_vin,count(a.vin) alarmCount
-        FROM  alarm_event a
+        FROM alarm_event a
         <where>
             <include refid="countCondition"/>
         </where>
         group by
         a.vin
         order by count(a.vin)
-            desc
-            limit 10
+        desc
+        limit 10
     </select>
     <select id="getRiskAndHandleCount" resultType="com.lgq.sharding.entity.RiskAndHandleCount">
         SELECT
         count(1) total,
         count(if(handle_status = 1,TRUE,NULL)) handle
-        FROM  alarm_event a
+        FROM alarm_event a
         where
         a.handle_status != 4 and a.handle_status != 2
         <include refid="countCondition"/>
+    </select>
+
+    <select id="groupHaving" resultType="com.lgq.sharding.entity.CountDto">
+        select risk_type, count(1) total,sum(case when risk_level = 1 then 1 else 0 end) num
+        from alarm_event
+        where alarm_start_time &gt;= #{startTime}
+          and alarm_start_time &lt;= #{endTime}
+        group by risk_type
+
     </select>
 </mapper>

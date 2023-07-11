@@ -41,4 +41,9 @@ public class AlarmEventController {
     public PageInfo<AlarmEvent> getList(@RequestBody AlarmStatQuery query) {
         return alarmEventService.getList(query);
     }
+
+    @PostMapping("/groupHaving")
+    public List<CountDto> groupHaving(@RequestBody AlarmStatQuery query) {
+        return alarmEventService.groupHaving(query);
+    }
 }
