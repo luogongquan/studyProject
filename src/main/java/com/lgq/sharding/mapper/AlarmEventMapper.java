@@ -11,7 +11,7 @@ import java.util.List;
  * @date: 2023/4/13 17:09
  * @Description:
  **/
-@TableShare
+@TableShare(logicName = "alarm_event")
 public interface AlarmEventMapper extends BaseMapper<AlarmEvent> {
     List<AlarmEventCount4Hour> getAlarmEventCount4Hour(AlarmStatQuery query);
 

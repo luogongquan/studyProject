@@ -9,4 +9,10 @@ import java.lang.annotation.*;
 @Inherited
 public @interface TableShare {
     String desc() default "分表切面";
+
+    String logicName() default "alarm_event";
+
+    String startTimeParam() default "startTime";
+
+    String endTimeParam() default "endTime";
 }

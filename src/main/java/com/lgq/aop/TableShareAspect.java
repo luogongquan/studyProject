@@ -4,12 +4,9 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.json.JSONConverter;
-import cn.hutool.json.JSONObject;
-import com.lgq.sharding.entity.AlarmStatQuery;
+import com.lgq.annotation.TableShare;
 import com.lgq.sharding.entity.ShardingPojo;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.shardingsphere.api.hint.HintManager;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -20,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * 分表跨表查询处理切面
@@ -41,24 +39,29 @@ public class TableShareAspect {
         HintManager hintManager = HintManager.getInstance();
         //  hintManager.setDatabaseShardingValue(0);
         ShardingPojo sharding = new ShardingPojo();
-
+        MethodSignature proceed = (MethodSignature)joinPoint.getSignature();
+        TableShare annotation = Optional.ofNullable(proceed.getMethod().getDeclaringClass().getAnnotation(TableShare.class))
+                .orElse(proceed.getMethod().getAnnotation(TableShare.class));
+        String startTimeParam= annotation.startTimeParam();
+        String endTimeParam= annotation.endTimeParam();
+        String logicName=annotation.logicName();
         Object[] args = joinPoint.getArgs();
         for (int i = 0; i < args.length; i++) {
             Map<String, Object> arg = BeanUtil.beanToMap(args[i]);
             if(ObjectUtil.isEmpty(arg)){
                 continue;
             }
-            if(arg.containsKey("startTime") && ObjectUtil.isNotEmpty(arg.get("startTime"))){
-                sharding.setStartTime(DateUtil.format((Date) arg.get("startTime"), DatePattern.SIMPLE_MONTH_PATTERN));
+            if(arg.containsKey(startTimeParam) && ObjectUtil.isNotEmpty(arg.get(startTimeParam))){
+                sharding.setStartTime(DateUtil.format((Date) arg.get(startTimeParam), DatePattern.SIMPLE_MONTH_PATTERN));
             }
-            if(arg.containsKey("endTime") && ObjectUtil.isNotEmpty(arg.get("endTime"))){
-                sharding.setEndTime(DateUtil.format((Date) arg.get("endTime"), DatePattern.SIMPLE_MONTH_PATTERN));
+            if(arg.containsKey(endTimeParam) && ObjectUtil.isNotEmpty(arg.get(endTimeParam))){
+                sharding.setEndTime(DateUtil.format((Date) arg.get(endTimeParam), DatePattern.SIMPLE_MONTH_PATTERN));
             }
         }
-        hintManager.addTableShardingValue("alarm_event", sharding);
-        Object proceed = joinPoint.proceed();
+        hintManager.addTableShardingValue(logicName, sharding);
+        Object result = joinPoint.proceed();
         HintManager.clear();
-        return proceed;
+        return result;
     }
 
 
