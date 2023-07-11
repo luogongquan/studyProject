@@ -39,7 +39,7 @@ public class AlarmEventController {
 
     @PostMapping("/getList")
     public PageInfo<AlarmEvent> getList(@RequestBody AlarmStatQuery query) {
-        return alarmEventService.getList(query);
+        return alarmEventService.getList(query,"1");
     }
 
     @PostMapping("/groupHaving")

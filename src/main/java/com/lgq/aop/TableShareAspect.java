@@ -9,6 +9,7 @@ import cn.hutool.json.JSONObject;
 import com.lgq.sharding.entity.AlarmStatQuery;
 import com.lgq.sharding.entity.ShardingPojo;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.shardingsphere.api.hint.HintManager;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -44,6 +45,9 @@ public class TableShareAspect {
         Object[] args = joinPoint.getArgs();
         for (int i = 0; i < args.length; i++) {
             Map<String, Object> arg = BeanUtil.beanToMap(args[i]);
+            if(ObjectUtil.isEmpty(arg)){
+                continue;
+            }
             if(arg.containsKey("startTime") && ObjectUtil.isNotEmpty(arg.get("startTime"))){
                 sharding.setStartTime(DateUtil.format((Date) arg.get("startTime"), DatePattern.SIMPLE_MONTH_PATTERN));
             }

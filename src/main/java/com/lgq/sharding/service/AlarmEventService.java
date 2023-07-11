@@ -52,7 +52,7 @@ public class AlarmEventService  extends ServiceImpl<AlarmEventMapper, AlarmEvent
     }
 
     @TableShare
-    public PageInfo<AlarmEvent>  getList(AlarmStatQuery query) {
+    public PageInfo<AlarmEvent>  getList(AlarmStatQuery query,String age) {
         /*HintManager.clear();
         HintManager hintManager = HintManager.getInstance();
         //  hintManager.setDatabaseShardingValue(0);
