@@ -12,6 +12,7 @@ import org.apache.shardingsphere.api.hint.HintManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,39 +21,40 @@ import java.util.List;
  * @since: 2023/7/10 10:40
  */
 @Service
+@TableShare
 public class AlarmEventService  extends ServiceImpl<AlarmEventMapper, AlarmEvent> {
     public List<AlarmEventCount4Hour> getAlarmEventCount4Hour(AlarmStatQuery query) {
-        HintManager.clear();
+        /*HintManager.clear();
         HintManager hintManager = HintManager.getInstance();
         //  hintManager.setDatabaseShardingValue(0);
         ShardingPojo sharding = new ShardingPojo();
         sharding.setStartTime("202306");
-        hintManager.addTableShardingValue("alarm_event", sharding);
+        hintManager.addTableShardingValue("alarm_event", sharding);*/
         return baseMapper.getAlarmEventCount4Hour(query);
     }
     public List<AlarmCountTop> alarmCount4RiskType(AlarmStatQuery query) {
-        HintManager.clear();
+        /*HintManager.clear();
         HintManager hintManager = HintManager.getInstance();
         //  hintManager.setDatabaseShardingValue(0);
         ShardingPojo sharding = new ShardingPojo();
         sharding.setStartTime("202306");
         sharding.setEndTime("202306");
-        hintManager.addTableShardingValue("alarm_event", sharding);
+        hintManager.addTableShardingValue("alarm_event", sharding);*/
         return baseMapper.alarmCount4RiskType(query);
     }
 
     public List<RiskAndHandleCount> getRiskAndHandleCount(AlarmStatQuery query) {
-        HintManager.clear();
+        /*HintManager.clear();
         HintManager hintManager = HintManager.getInstance();
         //  hintManager.setDatabaseShardingValue(0);
         ShardingPojo sharding = new ShardingPojo();
         sharding.setStartTime("202306");
-        hintManager.addTableShardingValue("alarm_event", sharding);
+        hintManager.addTableShardingValue("alarm_event", sharding);*/
         return baseMapper.getRiskAndHandleCount(query);
     }
 
-    @TableShare
-    public PageInfo<AlarmEvent>  getList(AlarmStatQuery query,String age) {
+    //@TableShare
+    public PageInfo<AlarmEvent>  getList(AlarmStatQuery query) {
         /*HintManager.clear();
         HintManager hintManager = HintManager.getInstance();
         //  hintManager.setDatabaseShardingValue(0);
@@ -77,5 +79,19 @@ public class AlarmEventService  extends ServiceImpl<AlarmEventMapper, AlarmEvent
 
     public List<CountDto> groupHaving(AlarmStatQuery query) {
         return baseMapper.groupHaving(query);
+    }
+
+    public boolean insert(List<AlarmEvent> list, String sur){
+        HintManager.clear();
+        HintManager hintManager = HintManager.getInstance();
+        //  hintManager.setDatabaseShardingValue(0);
+        ShardingPojo sharding = new ShardingPojo();
+        sharding.setTime(sur);
+        hintManager.addTableShardingValue("alarm_event", sharding);
+        return this.saveBatch(list);
+    }
+
+    public void createTable(String sur){
+        baseMapper.createTable(sur);
     }
 }

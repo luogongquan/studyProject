@@ -25,9 +25,8 @@
     <select id="findAlarmEventList" resultType="com.lgq.sharding.entity.AlarmEvent">
         SELECT
         <include refid="baseColumns"/>
-        FROM alarm_event a
+        FROM alarm_event_202306 a
         WHERE alarm_start_time &gt;=#{startTime} and alarm_start_time &lt;=#{endTime}
-        or risk_type=1
         ORDER BY a.alarm_start_time DESC
     </select>
 
@@ -93,4 +92,13 @@
         group by risk_type
 
     </select>
+
+    <select id="checkTableExistsWithShow"
+            resultType="java.lang.String">
+        show tables like #{tableName}
+    </select>
+
+    <insert id="createTable">
+        create table ${name}  like alarm_event_202306
+    </insert>
 </mapper>

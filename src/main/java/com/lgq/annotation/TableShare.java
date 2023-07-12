@@ -15,4 +15,6 @@ public @interface TableShare {
     String startTimeParam() default "startTime";
 
     String endTimeParam() default "endTime";
+
+    String eqTime() default "alarmStartTime";
 }

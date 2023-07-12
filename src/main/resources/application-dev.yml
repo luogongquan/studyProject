@@ -42,9 +42,9 @@ spring:
               # 分片键
               shardingColumn: code
               # 精准分库算法
-              preciseAlgorithmClassName: com.lgq.sharding.config.MyPreciseShardingAlgorithm
+              preciseAlgorithmClassName: com.lgq.sharding.strategy.MyPreciseShardingAlgorithm
               # 精准分表算法
-              rangeAlgorithmClassName: com.lgq.sharding.config.RangeTableShardingAlgorithm
+              rangeAlgorithmClassName: com.lgq.sharding.strategy.RangeTableShardingAlgorithm
       # 顺道展示一下 SQL 的执行过程
       props:
         sql:

@@ -1,4 +1,4 @@
-package com.lgq.sharding.config;
+package com.lgq.sharding.strategy;
 
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;

@@ -15,6 +15,7 @@ import java.util.Date;
 public class ShardingPojo implements Comparable<String>{
     private String startTime;
     private String endTime;
+    private String time;
 
     @Override
     public int compareTo(String o) {

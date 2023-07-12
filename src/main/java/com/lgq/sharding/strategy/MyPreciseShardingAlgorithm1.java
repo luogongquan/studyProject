@@ -1,4 +1,4 @@
-package com.lgq.sharding.config;
+package com.lgq.sharding.strategy;
 
 import cn.hutool.core.util.StrUtil;
 import org.apache.shardingsphere.api.sharding.standard.PreciseShardingAlgorithm;

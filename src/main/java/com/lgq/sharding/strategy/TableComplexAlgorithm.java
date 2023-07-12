@@ -1,4 +1,4 @@
-package com.lgq.sharding.config;
+package com.lgq.sharding.strategy;
 
 import com.google.common.collect.Lists;
 import org.apache.shardingsphere.api.sharding.complex.ComplexKeysShardingAlgorithm;

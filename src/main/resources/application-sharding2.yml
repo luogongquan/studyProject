@@ -42,7 +42,7 @@ spring:
             complex:
               shardingColumns: date_time,code
               # 精准分表算法
-              algorithmClassName: com.lgq.sharding.config.TableComplexAlgorithm
+              algorithmClassName: com.lgq.sharding.strategy.TableComplexAlgorithm
       # 顺道展示一下 SQL 的执行过程
       props:
         sql:

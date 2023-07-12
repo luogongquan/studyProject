@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.lgq.annotation.TableShare;
 import com.lgq.sharding.entity.ShardingPojo;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +46,7 @@ public class TableShareAspect {
         String startTimeParam= annotation.startTimeParam();
         String endTimeParam= annotation.endTimeParam();
         String logicName=annotation.logicName();
+        String eqTime=annotation.eqTime();
         Object[] args = joinPoint.getArgs();
         for (int i = 0; i < args.length; i++) {
             Map<String, Object> arg = BeanUtil.beanToMap(args[i]);
@@ -52,16 +54,26 @@ public class TableShareAspect {
                 continue;
             }
             if(arg.containsKey(startTimeParam) && ObjectUtil.isNotEmpty(arg.get(startTimeParam))){
-                sharding.setStartTime(DateUtil.format((Date) arg.get(startTimeParam), DatePattern.SIMPLE_MONTH_PATTERN));
+                sharding.setStartTime(getString(startTimeParam, arg));
             }
             if(arg.containsKey(endTimeParam) && ObjectUtil.isNotEmpty(arg.get(endTimeParam))){
-                sharding.setEndTime(DateUtil.format((Date) arg.get(endTimeParam), DatePattern.SIMPLE_MONTH_PATTERN));
+                sharding.setEndTime(getString(endTimeParam,arg));
+            }
+            if(arg.containsKey(eqTime) && ObjectUtil.isNotEmpty(arg.get(eqTime))){
+                sharding.setTime(getString(eqTime,arg));
             }
         }
         hintManager.addTableShardingValue(logicName, sharding);
         Object result = joinPoint.proceed();
         HintManager.clear();
         return result;
+    }
+
+    private static String getString(String startTimeParam, Map<String, Object> arg) {
+        Date o = (Date) arg.get(startTimeParam);
+        int week = DateUtil.weekOfMonth(o);
+        String weekStr=String.valueOf(week);
+        return StrUtil.format("{}{}", DateUtil.format(o, DatePattern.SIMPLE_MONTH_PATTERN), weekStr);
     }
 
 

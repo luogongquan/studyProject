@@ -1,4 +1,4 @@
-package com.lgq.sharding.config;
+package com.lgq.sharding.strategy;
 
 import com.google.common.collect.Range;
 import org.apache.commons.lang3.StringUtils;
