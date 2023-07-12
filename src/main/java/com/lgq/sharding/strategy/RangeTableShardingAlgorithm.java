@@ -1,12 +1,18 @@
 package com.lgq.sharding.strategy;
 
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
 import com.google.common.collect.Range;
+import com.lgq.sharding.config.TableNamesConfig;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shardingsphere.api.sharding.standard.RangeShardingAlgorithm;
 import org.apache.shardingsphere.api.sharding.standard.RangeShardingValue;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -14,33 +20,27 @@ import java.util.stream.Collectors;
  * @date: 2023/4/13 16:58
  * @Description:
  **/
-public class RangeTableShardingAlgorithm implements RangeShardingAlgorithm<Integer> {
+public class RangeTableShardingAlgorithm implements RangeShardingAlgorithm<Date> {
 
     @Override
-    public Collection<String> doSharding(Collection<String> collection, RangeShardingValue<Integer> rangeShardingValue) {
+    public Collection<String> doSharding(Collection<String> collection, RangeShardingValue<Date> rangeShardingValue) {
         System.out.println("=============================================="+rangeShardingValue);
-        Range<Integer> valueRange = rangeShardingValue.getValueRange();
-        Integer lower = valueRange.lowerEndpoint();
-        Integer upper = valueRange.upperEndpoint();
-
-        List<String> collect = collection.stream().filter(item -> {
-            String substring = StringUtils.substring(item, item.indexOf("_")+1, item.length());
-            Integer integer = Integer.valueOf(substring);
-            return integer >= lower && integer <= upper;
-        }).collect(Collectors.toList());
-        return collect;
+        Range<Date> valueRange = rangeShardingValue.getValueRange();
+        Date lower = valueRange.lowerEndpoint();
+        Date upper = valueRange.upperEndpoint();
+        int lowsInt = Integer.parseInt(getString(lower));
+        int upperInt = Integer.parseInt(getString(upper));
+        return TableNamesConfig.getAllTable(rangeShardingValue.getLogicTableName())
+                .stream()
+                .filter(item -> {
+                    String substring = StringUtils.substring(item, item.lastIndexOf("_") + 1, item.length());
+                    int integer = Integer.parseInt(substring);
+                    return integer >= lowsInt && integer <= upperInt;
+                }).collect(Collectors.toList());
     }
-
-    /**
-     * 构建分片后的表名
-     * @param logicTableName
-     * @param date
-     * @return
-     */
-    private String buildShardingTable(String logicTableName, String date) {
-        String substring = StringUtils.substring(date, 0, date.lastIndexOf("-"));
-        String replace = substring.replace("-", "");
-        StringBuffer stringBuffer = new StringBuffer(logicTableName).append("_").append( replace);
-        return stringBuffer.toString();
+    private static String getString(Date o) {
+        int week = DateUtil.weekOfMonth(o);
+        String weekStr=String.valueOf(week);
+        return StrUtil.format("{}{}", DateUtil.format(o, DatePattern.SIMPLE_MONTH_PATTERN), weekStr);
     }
 }

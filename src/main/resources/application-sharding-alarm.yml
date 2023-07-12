@@ -38,9 +38,13 @@ spring:
         alarm_event:
           actualDataNodes: ds.alarm_event_$->{2023}0$->{6..7}
           table-strategy:
-            #复合分片
-            hint:
-              algorithmClassName: com.lgq.sharding.strategy.TableHintAlgorithm
+            standard:
+              # 分片键
+              shardingColumn: alarm_start_time
+              # 精准分库算法
+              preciseAlgorithmClassName: com.lgq.sharding.strategy.MyPreciseShardingAlgorithm
+              # 精准分表算法
+              rangeAlgorithmClassName: com.lgq.sharding.strategy.RangeTableShardingAlgorithm
       # 顺道展示一下 SQL 的执行过程
       props:
         sql:

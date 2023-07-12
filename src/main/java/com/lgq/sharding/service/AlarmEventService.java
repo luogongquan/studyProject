@@ -24,45 +24,20 @@ import java.util.List;
 @TableShare
 public class AlarmEventService  extends ServiceImpl<AlarmEventMapper, AlarmEvent> {
     public List<AlarmEventCount4Hour> getAlarmEventCount4Hour(AlarmStatQuery query) {
-        /*HintManager.clear();
-        HintManager hintManager = HintManager.getInstance();
-        //  hintManager.setDatabaseShardingValue(0);
-        ShardingPojo sharding = new ShardingPojo();
-        sharding.setStartTime("202306");
-        hintManager.addTableShardingValue("alarm_event", sharding);*/
         return baseMapper.getAlarmEventCount4Hour(query);
     }
     public List<AlarmCountTop> alarmCount4RiskType(AlarmStatQuery query) {
-        /*HintManager.clear();
-        HintManager hintManager = HintManager.getInstance();
-        //  hintManager.setDatabaseShardingValue(0);
-        ShardingPojo sharding = new ShardingPojo();
-        sharding.setStartTime("202306");
-        sharding.setEndTime("202306");
-        hintManager.addTableShardingValue("alarm_event", sharding);*/
         return baseMapper.alarmCount4RiskType(query);
     }
 
     public List<RiskAndHandleCount> getRiskAndHandleCount(AlarmStatQuery query) {
-        /*HintManager.clear();
-        HintManager hintManager = HintManager.getInstance();
-        //  hintManager.setDatabaseShardingValue(0);
-        ShardingPojo sharding = new ShardingPojo();
-        sharding.setStartTime("202306");
-        hintManager.addTableShardingValue("alarm_event", sharding);*/
         return baseMapper.getRiskAndHandleCount(query);
     }
 
     //@TableShare
     public PageInfo<AlarmEvent>  getList(AlarmStatQuery query) {
-        /*HintManager.clear();
-        HintManager hintManager = HintManager.getInstance();
-        //  hintManager.setDatabaseShardingValue(0);
-        ShardingPojo sharding = new ShardingPojo();
-        sharding.setStartTime("202306");
-        hintManager.addTableShardingValue("alarm_event", sharding);*/
         LambdaQueryWrapper<AlarmEvent> ge = new QueryWrapper<AlarmEvent>().lambda()
-                .ge(AlarmEvent::getAlarmStartTime, query.getStartTime())
+                .between(AlarmEvent::getAlarmStartTime, query.getStartTime(),query.getEndTime())
                 .orderByDesc(AlarmEvent::getAlarmStartTime);
         PageHelper.startPage(query.getPageNum(),query.getPageSize());
         List<AlarmEvent> list = list(ge);

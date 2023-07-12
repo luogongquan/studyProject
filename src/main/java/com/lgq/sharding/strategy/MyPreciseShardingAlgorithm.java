@@ -14,6 +14,7 @@ import java.util.Collection;
 public class MyPreciseShardingAlgorithm implements PreciseShardingAlgorithm<Integer>{
     @Override
     public String doSharding(Collection<String> collection, PreciseShardingValue<Integer> preciseShardingValue) {
+
         return StrUtil.format("{}_{}",preciseShardingValue.getLogicTableName(),preciseShardingValue.getValue());
     }
 
