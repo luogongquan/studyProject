@@ -21,7 +21,6 @@ import java.util.List;
  * @since: 2023/7/10 10:40
  */
 @Service
-@TableShare
 public class AlarmEventService  extends ServiceImpl<AlarmEventMapper, AlarmEvent> {
     public List<AlarmEventCount4Hour> getAlarmEventCount4Hour(AlarmStatQuery query) {
         /*HintManager.clear();
@@ -53,7 +52,7 @@ public class AlarmEventService  extends ServiceImpl<AlarmEventMapper, AlarmEvent
         return baseMapper.getRiskAndHandleCount(query);
     }
 
-    //@TableShare
+    @TableShare
     public PageInfo<AlarmEvent>  getList(AlarmStatQuery query) {
         /*HintManager.clear();
         HintManager hintManager = HintManager.getInstance();
