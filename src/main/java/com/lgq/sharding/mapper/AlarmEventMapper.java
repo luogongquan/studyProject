@@ -3,7 +3,9 @@ package com.lgq.sharding.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lgq.sharding.entity.*;
 import org.apache.ibatis.annotations.MapKey;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
@@ -14,6 +16,7 @@ import java.util.Map;
  * @Description:
  **/
 //@TableShare(logicName = "alarm_event")
+@Repository
 public interface AlarmEventMapper extends BaseMapper<AlarmEvent> {
     List<AlarmEventCount4Hour> getAlarmEventCount4Hour(AlarmStatQuery query);
 

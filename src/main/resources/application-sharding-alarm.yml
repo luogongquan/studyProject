@@ -1,9 +1,5 @@
 spring:
-  shardingsphere:
-    # 打印sql
-    props:
-      sql:
-        show: true
+  sharding-sphere:
     datasource:
       names: ds
       ds:
@@ -29,25 +25,28 @@ spring:
         maxPoolPreparedStatementPerConnectionSize: 20
         useGlobalDataSourceStat: true
         connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
-    sharding:
-      # 默认数据源，未分片的表默认执行库
-      default-data-source-name: ds
-      # 表策略配置
-      tables:
-        # t_user 是逻辑表
-        alarm_event:
-          actualDataNodes: ds.alarm_event_$->{2023}0$->{6..7}
-          table-strategy:
-            standard:
-              # 分片键
-              shardingColumn: alarm_start_time
-              # 精准分库算法
-              preciseAlgorithmClassName: com.lgq.sharding.strategy.MyPreciseShardingAlgorithm
-              # 精准分表算法
-              rangeAlgorithmClassName: com.lgq.sharding.strategy.RangeTableShardingAlgorithm
-      # 顺道展示一下 SQL 的执行过程
-      props:
-        sql:
-          show: true
+    rules:
+      sharding:
+        # 表策略配置
+        tables:
+          # t_user 是逻辑表
+          alarm_event:
+            actualDataNodes: ds.alarm_event_$->{2023}0$->{6..7}
+            table-strategy:
+              standard:
+                # 分片键
+                shardingColumn: alarm_start_time
+                # 精准分库算法
+                sharding-algorithm-name: myPreciseShardingAlgorithm
+    # 打印sql
+    props:
+      sql-show: true
 mybatis-plus:
   mapper-locations: classpath:/mapper/*.xml
+  type-aliases-package: com.lgq.sharding.mapper
+logging:
+  level:
+    cn:
+      lzc:
+        user:
+          mapper: debug

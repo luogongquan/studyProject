@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -27,6 +28,10 @@ public class StudentController {
     @RequestMapping("getList")
     public List<Student> getList(String time){
         return service.getList(time);
+    }
+    @RequestMapping("getCount")
+    public List<Map> getCount(){
+        return service.getCount();
     }
 
     @RequestMapping("/redis")

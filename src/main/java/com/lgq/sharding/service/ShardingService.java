@@ -2,15 +2,10 @@ package com.lgq.sharding.service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lgq.sharding.entity.Sharding;
-import com.lgq.sharding.entity.ShardingPojo;
 import com.lgq.sharding.mapper.ShardingMapper;
-import org.apache.shardingsphere.api.hint.HintManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -32,13 +27,6 @@ public class ShardingService extends ServiceImpl<ShardingMapper, Sharding> {
         return mapper.get4String();
     }
     public List<Sharding> get4Date(){
-        HintManager.clear();
-        HintManager hintManager = HintManager.getInstance();
-      //  hintManager.setDatabaseShardingValue(0);
-        ShardingPojo sharding = new ShardingPojo();
-        sharding.setStartTime("202301");
-        sharding.setEndTime("202302");
-        hintManager.addTableShardingValue("sharding", sharding);
         return mapper.get4Date();
     }
 }

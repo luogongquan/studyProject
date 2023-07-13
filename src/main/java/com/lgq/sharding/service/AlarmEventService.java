@@ -8,11 +8,8 @@ import com.github.pagehelper.PageInfo;
 import com.lgq.annotation.TableShare;
 import com.lgq.sharding.entity.*;
 import com.lgq.sharding.mapper.AlarmEventMapper;
-import org.apache.shardingsphere.api.hint.HintManager;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -57,12 +54,6 @@ public class AlarmEventService  extends ServiceImpl<AlarmEventMapper, AlarmEvent
     }
 
     public boolean insert(List<AlarmEvent> list, String sur){
-        HintManager.clear();
-        HintManager hintManager = HintManager.getInstance();
-        //  hintManager.setDatabaseShardingValue(0);
-        ShardingPojo sharding = new ShardingPojo();
-        sharding.setTime(sur);
-        hintManager.addTableShardingValue("alarm_event", sharding);
         return this.saveBatch(list);
     }
 

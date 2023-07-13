@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: luogongquan
@@ -19,5 +20,8 @@ public class StudentService extends ServiceImpl<StudentMapper, Student> {
     private StudentMapper mapper;
     public List<Student> getList(String time){
         return mapper.getList(time);
+    }
+    public List<Map> getCount(){
+        return mapper.getCount();
     }
 }
