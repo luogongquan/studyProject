@@ -13,3 +13,12 @@ spring:
     database: 14
   main:
     allow-bean-definition-overriding: true
+  application:
+    name: test
+  rabbitmq:
+    port: 5672
+    username: guest
+    password: guest
+    host: 192.168.133.130
+
+
