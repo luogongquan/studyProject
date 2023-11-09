@@ -2,6 +2,7 @@ package com.lgq.sharding.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Date;
  * @Description:
  **/
 @Data
-public class Student {
+public class Student implements Serializable{
     private long id;
     private Date time;
 }
